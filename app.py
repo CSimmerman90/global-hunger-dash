@@ -20,6 +20,7 @@ app.layout = html.Div(id = 'parent', children = [
         dcc.Graph(id='display-selected-values', figure=fig)
     ])
 
+
 @app.callback(
     dash.dependencies.Output('display-selected-values', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
