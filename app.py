@@ -21,6 +21,7 @@ app.layout = html.Div([
     ),
 ])
 
+
 @app.callback(
     dash.dependencies.Output('display-selected-values', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
