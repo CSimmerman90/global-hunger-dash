@@ -38,7 +38,7 @@ app.layout = html.Div(children=[
         dcc.Dropdown(id= 'demo2-dropdown', options=[{"value": i, "label": i} for i in underweight_country],
                      value= ['Afghanistan'], multi=True),
         dcc.Graph(
-            id='graph2',
+            id='display-selected-values-2',
             figure=fig2
         ), 
     ]),
@@ -51,6 +51,14 @@ def update_output(value):
     ts = df[df["entity"].isin(value)]
     fig = px.line(ts, x="year", y="global_hunger_index", color="entity", markers=True)
     return fig
+
+@app.callback(
+    dash.dependencies.Output('display-selected-values-2', 'figure2'),
+    [dash.dependencies.Input('demo2-dropdown', 'value')])
+def update_output2(value):
+    ts2 = df2[df2["country"].isin(value)]
+    fig2 = px.bar(df2, x="year", y="underweight_percent", color='country')
+    return fig2
 
 if __name__ == '__main__':
     app.run_server(debug=True)
