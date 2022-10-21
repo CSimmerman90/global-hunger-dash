@@ -10,15 +10,16 @@ available_countries = df['entity'].unique()
 
 fig = px.line(df, x="year", y="global_hunger_index", color='entity', markers=True)
 
-
-app.layout = html.Div(id = 'parent', children = [
-    html.H1(id = 'H1', children = 'Global Hunger Index', style = {'textAlign':'center',\
-                                            'marginTop':40,'marginBottom':40}),
-
+app.layout = html.Div([
+    dcc.Graph(
+        id='display-selected-values',
+        figure=fig
+    ),
+        html.Br(),
+        html.Label('Multi-Select Dropdown'),
         dcc.Dropdown(id= 'demo-dropdown', options=[{"value": i, "label": i} for i in available_countries],
                      value= ['Afghanistan'], multi=True),
-        dcc.Graph(id='display-selected-values', figure=fig)
-    ])
+])
 
 @app.callback(
     dash.dependencies.Output('display-selected-values', 'figure'),
