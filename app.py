@@ -8,7 +8,11 @@ app = Dash(__name__)
 df = pd.read_csv('global-hunger-index.csv')
 available_countries = df['entity'].unique()
 
+df2 = pd.read_csv('share-of-children-underweight.csv')
+underweight_country = df2['country'].unique()
+
 fig = px.line(df, x="year", y="global_hunger_index", color='entity', markers=True)
+fig2 = px.bar(df2, x="year", y="underweight_percent", color='country')
 
 app.layout = html.Div(children=[
     html.Div([
@@ -31,11 +35,11 @@ app.layout = html.Div(children=[
             Dash: A web application framework for Python.
         '''),
         html.Label('Multi-Select Dropdown 2'),
-        dcc.Dropdown(id= 'demo2-dropdown', options=[{"value": i, "label": i} for i in available_countries],
+        dcc.Dropdown(id= 'demo2-dropdown', options=[{"value": i, "label": i} for i in underweight_country],
                      value= ['Afghanistan'], multi=True),
         dcc.Graph(
             id='graph2',
-            figure=fig
+            figure=fig2
         ), 
     ]),
 ])
