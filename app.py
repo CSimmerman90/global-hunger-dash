@@ -12,7 +12,7 @@ df2 = pd.read_csv('share-of-children-underweight.csv')
 underweight_country = df2['country'].unique()
 
 fig = px.line(df, x="year", y="global_hunger_index", color='entity', markers=True)
-fig2 = px.bar(df2, x="year", y="underweight_percent", color='country')
+fig2 = px.bar(df2, x="year", y="underweight_percent", color='country', barmode='group')
 
 app.layout = html.Div(children=[
     html.Div([
@@ -29,12 +29,10 @@ app.layout = html.Div(children=[
         ),
     ]),
     html.Div([
-        html.H1(children='Hello Dash V2'),
+        html.H1(children='Underweight Children Percentage by Country'),
 
-        html.Div(children='''
-            Dash: A web application framework for Python.
-        '''),
-        html.Label('Multi-Select Dropdown 2'),
+        html.Div(),
+        html.Label('Select Country'),
         dcc.Dropdown(id= 'demo2-dropdown', options=[{"value": i, "label": i} for i in underweight_country],
                      value= ['Afghanistan'], multi=True),
         dcc.Graph(
@@ -53,11 +51,11 @@ def update_output(value):
     return fig
 
 @app.callback(
-    dash.dependencies.Output('display-selected-values-2', 'figure2'),
+    dash.dependencies.Output('display-selected-values-2', 'figure'),
     [dash.dependencies.Input('demo2-dropdown', 'value')])
 def update_output2(value):
-    ts2 = df2[df2["country"].isin(value)]
-    fig2 = px.bar(df2, x="year", y="underweight_percent", color='country')
+    ts = df2[df2["country"].isin(value)]
+    fig2 = px.bar(ts, x="year", y="underweight_percent", color='country', barmode='group')
     return fig2
 
 if __name__ == '__main__':
